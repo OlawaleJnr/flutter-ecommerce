@@ -1,3 +1,7 @@
+import 'package:ecommerce/app/auth_widget.dart';
+import 'package:ecommerce/app/pages/admin/admin_home.dart';
+import 'package:ecommerce/app/pages/auth/sign_in_page.dart';
+import 'package:ecommerce/app/providers.dart';
 import 'package:ecommerce/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -9,42 +13,37 @@ void main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-final counterProvider = StateNotifierProvider((ref) {
-  return Counter();
-});
-
-class Counter extends StateNotifier<int> {
-  /// Calling the constructor of the parent class.
-  Counter() : super(0);
-
-  /// It increments the value of the variable `state` by one
-  void increment () => state++;
-}
-
 class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(counterProvider);
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Ecommerce App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            ref.read(counterProvider.notifier).increment();
-          },
-          child: const Icon(
-            Icons.add,
-          ),
+        colorScheme: ColorScheme.fromSeed(
+          primary: Colors.indigo,
+          seedColor: Colors.indigo,
         ),
-        body: Center(
-          child: Text(
-            count.toString() 
+      ),
+      home: AuthWidget(
+        nonSignedInBuilder: (context) => const SignInPage(),
+        adminSignedInBuilder: (context) => const AdminHome(),
+        signedInBuilder: (context) => Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text('Signed in'),
+                ElevatedButton(
+                  onPressed: () {
+                    ref.read(firebaseAuthProvider).signOut();
+                  }, 
+                  child: const Text('Sign out'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
