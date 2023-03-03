@@ -1,5 +1,6 @@
 import 'package:ecommerce/app/pages/admin/admin_add_product.dart';
 import 'package:ecommerce/app/providers.dart';
+import 'package:ecommerce/models/product.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -32,6 +33,25 @@ class AdminHome extends ConsumerWidget {
             ),
           ),
         ],
+      ),
+      body: StreamBuilder<List<Product>>(
+        stream: ref.read(databaseProvider)!.getProducts(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.active && snapshot.data != null) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                final product = snapshot.data![index];
+                return ListTile(
+                  title: Text(product.name),
+                );
+              },
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

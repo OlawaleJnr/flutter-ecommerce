@@ -18,4 +18,13 @@ class FirestoreService {
       print('An error occurred while processing this request')
     });
   }
+
+  Stream<List<Product>> getProducts() {
+    return firestore.collection('products') // gets collection
+    .snapshots() // gets snapshots, then loop through
+    .map((snapshot) => snapshot.docs.map((doc) { // loop through docs
+      final d = doc.data(); // for each doc get the data
+      return Product.fromMap(d); // convert into a map
+    }).toList()); // build a list out of the products mapping
+  }
 }
