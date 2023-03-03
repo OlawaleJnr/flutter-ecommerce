@@ -11,6 +11,7 @@ class Product {
     required this.imageUrl,
   });
 
+  /// A method responsible for converting our product fields into JSON/MAP format.
   Map<String, dynamic> toMap() {
     return {
       'name': name,
