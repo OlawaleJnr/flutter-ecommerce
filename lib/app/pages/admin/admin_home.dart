@@ -44,6 +44,15 @@ class AdminHome extends ConsumerWidget {
                 final product = snapshot.data![index];
                 return ListTile(
                   title: Text(product.name),
+                  trailing: IconButton(
+                    icon: const Icon(
+                      Icons.delete,
+                    ),
+                    onPressed: () {
+                      // Use the ! only when we know it won’t be null. The best practice is to check that in a statement before.
+                      ref.read(databaseProvider)!.deleteProduct(product.id!);
+                    },
+                  ),
                 );
               },
             );
