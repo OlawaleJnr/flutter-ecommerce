@@ -5,6 +5,7 @@ class Product {
   final double price;
   final String imageUrl;
 
+  /// This is a named constructor. It is used to create a new instance of the Product class.
   Product({
     this.id,
     required this.name,
@@ -14,6 +15,11 @@ class Product {
   });
 
   /// A method responsible for converting our product fields into JSON/MAP format.
+  /// It takes an id and returns a map of the product's properties
+  /// 
+  /// Args: id (String): The id of the product.
+  /// 
+  /// Returns: A map of the product's data.
   Map<String, dynamic> toMap(String id) {
     return {
       'id': id,

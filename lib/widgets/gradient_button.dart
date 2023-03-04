@@ -28,6 +28,7 @@ class GradientButton extends StatelessWidget {
         style: ButtonStyle(
           elevation: MaterialStateProperty.all(0),
           alignment: Alignment.center,
+          minimumSize: MaterialStateProperty.all(const Size.fromHeight(50)),
           padding: MaterialStateProperty.all(
             const EdgeInsets.only(
               right: 75, 
